@@ -1,0 +1,2 @@
+pip install transformers torch datasets sentencepiece indic-nlp-library
+pip install fastapi uvicorn transformers torch sentencepiece pydantic[dotenv] aiohttp

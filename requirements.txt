@@ -1,2 +1,8 @@
 pip install transformers torch datasets sentencepiece indic-nlp-library
 pip install fastapi uvicorn transformers torch sentencepiece pydantic[dotenv] aiohttp
+
+
+##Frontend Setup :
+npx create-next-app@latest frontend
+cd frontend
+npm install axios tailwindcss

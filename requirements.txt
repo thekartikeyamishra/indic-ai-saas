@@ -6,3 +6,12 @@ pip install fastapi uvicorn transformers torch sentencepiece pydantic[dotenv] ai
 npx create-next-app@latest frontend
 cd frontend
 npm install axios tailwindcss
+
+##Start the Backend Server
+Run in the terminal:
+bash
+uvicorn backend.app:app --reload
+API Endpoint: http://127.0.0.1:8000/generate
+Test API with Postman or:
+bash
+curl -X 'POST' 'http://127.0.0.1:8000/generate' -d "input_text=नमस्ते दुनिया"

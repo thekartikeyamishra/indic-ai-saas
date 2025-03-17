@@ -9,8 +9,9 @@ npm install axios tailwindcss
 
 ##Start the Backend Server
 Run in the terminal:
-bash
+'''
 uvicorn backend.app:app --reload
+...
 API Endpoint: http://127.0.0.1:8000/generate
 Test API with Postman or:
 bash

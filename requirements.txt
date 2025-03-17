@@ -1,5 +1,7 @@
 pip install transformers torch datasets sentencepiece indic-nlp-library
 pip install fastapi uvicorn transformers torch sentencepiece pydantic[dotenv] aiohttp
+pip install razorpay
+
 
 
 ##Frontend Setup :
@@ -8,11 +10,8 @@ cd frontend
 npm install axios tailwindcss
 
 ##Start the Backend Server
-Run in the terminal:
-'''
-uvicorn backend.app:app --reload
-...
+
+Run in the terminal: uvicorn backend.app:app --reload
 API Endpoint: http://127.0.0.1:8000/generate
-Test API with Postman or:
-bash
-curl -X 'POST' 'http://127.0.0.1:8000/generate' -d "input_text=नमस्ते दुनिया"
+Test API with Postman : curl -X 'POST' 'http://127.0.0.1:8000/generate' -d "input_text=नमस्ते दुनिया"
+

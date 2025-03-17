@@ -1,6 +1,14 @@
+## Dependencies:
 pip install transformers torch datasets sentencepiece indic-nlp-library
 pip install fastapi uvicorn transformers torch sentencepiece pydantic[dotenv] aiohttp
 pip install razorpay
+pip install twilio
+npm install next-auth firebase
+pip install psycopg2-binary stripe
+npm install @mui/material @mui/icons-material
+pip install cryptography pandas sqlalchemy psycopg2
+pip install dash pandas plotly
+
 
 
 
@@ -14,4 +22,91 @@ npm install axios tailwindcss
 Run in the terminal: uvicorn backend.app:app --reload
 API Endpoint: http://127.0.0.1:8000/generate
 Test API with Postman : curl -X 'POST' 'http://127.0.0.1:8000/generate' -d "input_text=नमस्ते दुनिया"
+
+## Deploy Backend to Railway.app
+
+railway init
+railway up
+
+API goes live!
+
+###Set Up PostgreSQL Table
+📌 Run in PostgreSQL
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    credits INT DEFAULT 10
+);
+
+##Test WhatsApp Bot
+
+curl -X POST "http://127.0.0.1:8000/send_whatsapp" -d "phone=+91XXXXXXXXXX&message=Hello, AI-powered WhatsApp chatbot here!"
+If successful, the user will receive a WhatsApp message from your bot.
+
+## Start Billing System
+uvicorn backend.app:app --reload
+npm run dev
+Users can now buy credits via Stripe & use them for API calls!
+
+## Data Collection Backend Setup
+
+Defining What Data to Collect
+We will collect anonymized and structured data from:
+
+User-Generated Text & Translations (for LLM training).
+WhatsApp Chatbot Interactions (for conversational AI).
+User Interests & Usage Behavior (to enhance personalization).
+Voice-to-Text Datasets (for AI speech models).
+API & Feature Usage Metrics (for product optimization).
+📌 Important: Ethical Considerations
+✅ User Consent (Notify users & allow opt-out).
+✅ Anonymization (Remove PII - Personal Identifiable Information).
+✅ Secure Storage (Store data in PostgreSQL/MongoDB with encryption).
+
+## --> Run in PostgreSQL
+
+CREATE TABLE user_data (
+    id SERIAL PRIMARY KEY,
+    user_id VARCHAR(255),
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    feature_used VARCHAR(255),
+    input_text TEXT,
+    output_text TEXT,
+    additional_info JSONB
+);
+
+Using Collected Data for Future AI/LLM Training
+
+1️⃣ Export Data for AI Training
+📌 Run in Terminal
+psql -d your_db -c "COPY user_data TO 'user_data.csv' DELIMITER ',' CSV HEADER;"
+
+This exports all user-generated content for training AI models.
+
+2️⃣ Fine-Tune mT5 on User Data
+📌 Train Model on Collected Data
+
+from transformers import T5Tokenizer, T5ForConditionalGeneration, Trainer, TrainingArguments
+import pandas as pd
+
+# Load Data
+df = pd.read_csv("user_data.csv")
+
+# Prepare Data for Training
+train_texts = df["input_text"].tolist()
+train_labels = df["output_text"].tolist()
+
+tokenizer = T5Tokenizer.from_pretrained("google/mt5-small")
+train_encodings = tokenizer(train_texts, truncation=True, padding=True, max_length=128)
+train_labels_encodings = tokenizer(train_labels, truncation=True, padding=True, max_length=128)
+
+# Train Model
+model = T5ForConditionalGeneration.from_pretrained("google/mt5-small")
+training_args = TrainingArguments(output_dir="./results", num_train_epochs=3, per_device_train_batch_size=8)
+trainer = Trainer(model=model, args=training_args, train_dataset=train_encodings)
+
+trainer.train()
+
+
+
 
